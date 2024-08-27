@@ -68,5 +68,7 @@ function printHour() {
 setInterval(printHour, 1000)
 
 function register() {
+    // Abrir <dialogue> com no mínimo 4 botões
+
     alert("Bater Ponto")
 }
