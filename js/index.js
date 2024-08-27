@@ -2,40 +2,27 @@ const diaSemana = document.getElementById("dia-semana")
 const diaMesAno = document.getElementById("dia-mes-ano")
 const horaMinSeg = document.getElementById("hora-min-seg")
 
+const btnBaterPonto = document.getElementById("btn-bater-ponto")
+btnBaterPonto.addEventListener("click", register)
+
 diaSemana.textContent = getCurrentDay()
 diaMesAno.textContent = getCurrentDate()
-horaMinSeg.textContent = getCurrentHour()
+horaMinSeg.textContent = printHour()
 
 function getCurrentDay() {
     const date = new Date()
     
-    switch (date.getDay()) {
-        case 0:
-            return "Domingo"
-        break
-        case 1:
-            return "Segunda-feira"
-        break
-        case 2:
-            return "Terça-feira"
-        break
-        case 3:
-            return "Quarta-feira"
-        break
-        case 4:
-            return "Quinta-feira"
-        break
-        case 5:
-            return "Sexta-feira"
-        break
-        case 6:
-            return "Sábado"
-        break
-    }
+    let days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+    return days[date.getDay()]
 
 }
 
 function getCurrentDate() {
+    // Usar padSstart ou slice
+    // Considerar formatos diferentes de data e hora conforme localização do usuário
+    // Verificar se no Date há algum método que possa auxiliar
+    // locale
+
     const date = new Date()
 
     let day = date.getDate()
@@ -72,4 +59,14 @@ function getCurrentHour() {
     }
 
     return hour + ":" + minutes + ":" + seconds
+}
+
+function printHour() {
+    horaMinSeg.textContent = getCurrentHour()
+}
+
+setInterval(printHour, 1000)
+
+function register() {
+    alert("Bater Ponto")
 }
