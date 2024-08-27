@@ -41,12 +41,12 @@ function getCurrentDate() {
     let day = date.getDate()
     if (day.length < 2)
     {
-        day = 0 + day
+        day = "0" + day
     }
 
     let month = String(parseInt(date.getMonth())+1)
     if (month.length < 2) {
-        month = 0 + month
+        month = "0" + month
     } 
 
     return day + "/" + month + "/" + date.getFullYear()
@@ -54,5 +54,22 @@ function getCurrentDate() {
 
 function getCurrentHour() {
     const date = new Date()
-    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+
+    let hour = date.getHours()
+    if (hour < 10)
+    {
+        hour = "0" + hour
+    }
+    let minutes = date.getMinutes()
+    if (minutes < 10)
+    {
+        minutes = "0" + minutes
+    }
+    let seconds = date.getSeconds()
+    if (seconds < 10)
+    {
+        seconds = "0" + seconds
+    }
+
+    return hour + ":" + minutes + ":" + seconds
 }
