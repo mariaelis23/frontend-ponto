@@ -1,3 +1,7 @@
+navigator.geolocation.getCurrentPosition((position) => {
+    
+})
+
 const diaSemana = document.getElementById("dia-semana")
 const diaMesAno = document.getElementById("dia-mes-ano")
 const horaMinSeg = document.getElementById("hora-min-seg")
@@ -8,10 +12,15 @@ btnBaterPonto.addEventListener("click", register)
 const dialogPonto = document.getElementById("dialog-ponto")
 const btnDialogFechar = document.getElementById("btn-dialog-fechar")
 btnDialogFechar.addEventListener("click", () => dialogPonto.close())
+const dialogData = document.getElementById("dialog-data")
+const dialogHora = document.getElementById("dialog-hora")
 
 diaSemana.textContent = getCurrentDay()
 diaMesAno.textContent = getCurrentDate()
 horaMinSeg.textContent = printHour()
+
+dialogData.textContent = "Data: " + getCurrentDate()
+dialogHora.textContent = "Hora: " + getCurrentHour()
 
 function getCurrentDay() {
     const date = new Date()
