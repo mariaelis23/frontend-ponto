@@ -5,6 +5,10 @@ const horaMinSeg = document.getElementById("hora-min-seg")
 const btnBaterPonto = document.getElementById("btn-bater-ponto")
 btnBaterPonto.addEventListener("click", register)
 
+const dialogPonto = document.getElementById("dialog-ponto")
+const btnDialogFechar = document.getElementById("btn-dialog-fechar")
+btnDialogFechar.addEventListener("click", () => dialogPonto.close())
+
 diaSemana.textContent = getCurrentDay()
 diaMesAno.textContent = getCurrentDate()
 horaMinSeg.textContent = printHour()
@@ -26,7 +30,7 @@ function getCurrentDate() {
     const date = new Date()
 
     let day = date.getDate()
-    if (day.length < 2)
+    if (day < 10)
     {
         day = "0" + day
     }
@@ -68,7 +72,7 @@ function printHour() {
 setInterval(printHour, 1000)
 
 function register() {
-    // Abrir <dialogue> com no mínimo 4 botões
-
-    alert("Bater Ponto")
+    
+    dialogPonto.showModal()
+    
 }
