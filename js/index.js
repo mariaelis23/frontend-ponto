@@ -10,6 +10,23 @@ const btnBaterPonto = document.getElementById("btn-bater-ponto")
 btnBaterPonto.addEventListener("click", register)
 
 const dialogPonto = document.getElementById("dialog-ponto")
+const selectDialogTipo = document.getElementById("select-dialog-tipo")
+const btnDialogRegistrar = document.getElementById("btn-dialog-registrar")
+btnDialogRegistrar.addEventListener("click", () => {
+
+    // Recuperar data, hora, localização e tipo e salva em objeto javascript
+
+    let ponto = {
+        data: getCurrentDate(),
+        hora: getCurrentHour(),
+        localizacao: getCurrentPosition(),
+        id: 1,
+        tipo: selectDialogTipo.value
+    }
+
+    console.log(ponto)
+
+})
 const btnDialogFechar = document.getElementById("btn-dialog-fechar")
 btnDialogFechar.addEventListener("click", () => dialogPonto.close())
 const dialogData = document.getElementById("dialog-data")
@@ -78,6 +95,15 @@ function printHour() {
     horaMinSeg.textContent = getCurrentHour()
 }
 
+function getCurrentPosition() {
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        return position
+      });
+      
+
+}
+
 setInterval(printHour, 1000)
 
 function register() {
@@ -85,3 +111,4 @@ function register() {
     dialogPonto.showModal()
     
 }
+
