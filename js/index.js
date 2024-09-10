@@ -9,6 +9,8 @@ const horaMinSeg = document.getElementById("hora-min-seg")
 const btnBaterPonto = document.getElementById("btn-bater-ponto")
 btnBaterPonto.addEventListener("click", register)
 
+let registerLocalStorage = getRegisterLocalStorage()
+
 const dialogPonto = document.getElementById("dialog-ponto")
 const selectDialogTipo = document.getElementById("select-dialog-tipo")
 const btnDialogRegistrar = document.getElementById("btn-dialog-registrar")
@@ -25,6 +27,12 @@ btnDialogRegistrar.addEventListener("click", () => {
     }
 
     console.log(ponto)
+    saveRegisterLocalStorage(ponto)
+    localStorage.setItem("lastTypeRegister", selectDialogTipo.value)
+
+    dialogPonto.close()
+
+    // Mostrar mensagem de confirmação
 
 })
 const btnDialogFechar = document.getElementById("btn-dialog-fechar")
@@ -105,6 +113,24 @@ function getCurrentPosition() {
 }
 
 setInterval(printHour, 1000)
+
+function saveRegisterLocalStorage(register) {
+
+    registerLocalStorage.push(register)
+    localStorage.setItem("register", JSON.stringify(registerLocalStorage))
+}
+
+function getRegisterLocalStorage(register) {
+    
+    let registers = JSON.parse(localStorage.getItem("register"))
+
+    if (!registers) {
+        return []
+    }
+
+    return registers
+
+}
 
 function register() {
     
