@@ -44,9 +44,6 @@ diaSemana.textContent = getCurrentDay()
 diaMesAno.textContent = getCurrentDate()
 horaMinSeg.textContent = printHour()
 
-dialogData.textContent = "Data: " + getCurrentDate()
-dialogHora.textContent = "Hora: " + getCurrentHour()
-
 function getCurrentDay() {
     const date = new Date()
     
@@ -80,21 +77,11 @@ function getCurrentDate() {
 function getCurrentHour() {
     const date = new Date()
 
-    let hour = date.getHours()
-    if (hour < 10)
-    {
-        hour = "0" + hour
-    }
-    let minutes = date.getMinutes()
-    if (minutes < 10)
-    {
-        minutes = "0" + minutes
-    }
-    let seconds = date.getSeconds()
-    if (seconds < 10)
-    {
-        seconds = "0" + seconds
-    }
+    let hour = String(date.getHours()).padStart(2, '0')
+
+    let minutes = String(date.getMinutes()).padStart(2, '0')
+
+    let seconds = String(date.getSeconds()).padStart(2, '0')
 
     return hour + ":" + minutes + ":" + seconds
 }
@@ -111,8 +98,6 @@ function getCurrentPosition() {
       
 
 }
-
-setInterval(printHour, 1000)
 
 function saveRegisterLocalStorage(register) {
 
@@ -135,6 +120,12 @@ function getRegisterLocalStorage(register) {
 function register() {
     
     dialogPonto.showModal()
+
+    // Atualizar horário a cada segundo e data 00:00:00
+    dialogData.textContent = "Data: " + getCurrentDate()
+    dialogHora.textContent = "Hora: " + getCurrentHour()
     
 }
 
+printHour()
+setInterval(printHour, 1000)
