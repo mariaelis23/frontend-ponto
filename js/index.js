@@ -6,6 +6,7 @@ const diaSemana = document.getElementById("dia-semana")
 const diaMesAno = document.getElementById("dia-mes-ano")
 const horaMinSeg = document.getElementById("hora-min-seg")
 
+const popUp = document.getElementById("pop-up")
 const btnBaterPonto = document.getElementById("btn-bater-ponto")
 btnBaterPonto.addEventListener("click", register)
 
@@ -14,6 +15,12 @@ let registerLocalStorage = getRegisterLocalStorage()
 const dialogPonto = document.getElementById("dialog-ponto")
 const selectDialogTipo = document.getElementById("select-dialog-tipo")
 const btnDialogRegistrar = document.getElementById("btn-dialog-registrar")
+const btnDialogFechar = document.getElementById("btn-dialog-fechar")
+const dialogData = document.getElementById("dialog-data")
+const dialogHora = document.getElementById("dialog-hora")
+const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
+
+btnDialogFechar.addEventListener("click", () => dialogPonto.close())
 btnDialogRegistrar.addEventListener("click", () => {
 
     // Recuperar data, hora, localização e tipo e salva em objeto javascript
@@ -29,16 +36,19 @@ btnDialogRegistrar.addEventListener("click", () => {
     console.log(ponto)
     saveRegisterLocalStorage(ponto)
     localStorage.setItem("lastTypeRegister", selectDialogTipo.value)
+    localStorage.setItem("lastDateRegister", ponto.data)
+    localStorage.setItem("lastTimeRegister", ponto.hora)
 
     dialogPonto.close()
 
     // Mostrar mensagem de confirmação
+    popUp.className = "visible"
+
+    setTimeout(() => {
+        popUp.className = "not-visible"
+    }, 5000);
 
 })
-const btnDialogFechar = document.getElementById("btn-dialog-fechar")
-btnDialogFechar.addEventListener("click", () => dialogPonto.close())
-const dialogData = document.getElementById("dialog-data")
-const dialogHora = document.getElementById("dialog-hora")
 
 diaSemana.textContent = getCurrentDay()
 diaMesAno.textContent = getCurrentDate()
@@ -107,7 +117,7 @@ function saveRegisterLocalStorage(register) {
 
 function getRegisterLocalStorage(register) {
     
-    let registers = JSON.parse(localStorage.getItem("register"))
+    let registers = JSON.parse(localStorage.getItem(register))
 
     if (!registers) {
         return []
@@ -124,6 +134,8 @@ function register() {
     // Atualizar horário a cada segundo e data 00:00:00
     dialogData.textContent = "Data: " + getCurrentDate()
     dialogHora.textContent = "Hora: " + getCurrentHour()
+
+    dialogUltimoPonto.textContent = `Último registro: ${localStorage.getItem("lastTypeRegister")} - ${localStorage.getItem("lastDateRegister")} - ${localStorage.getItem("lastTimeRegister")}`
     
 }
 

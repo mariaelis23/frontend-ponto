@@ -7,3 +7,40 @@
     top: 0%;
     right: 0%;
 }
+
+#pop-up {
+    text-align: center;
+    background-color: greenyellow;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+}
+
+.visible {
+    visibility: visible;
+    animation-duration: 1s;
+    animation-name: show-pop-up;
+}
+
+.not-visible {
+    visibility: hidden;
+}
+
+@keyframes show-pop-up {
+    from {
+        top: -9%;
+    }
+    to {
+        top: 0%;
+    }
+}
+
+@keyframes hide-pop-up {
+    from {
+        top: 0%;
+    }
+    to {
+        top: -9%;
+    }
+}
