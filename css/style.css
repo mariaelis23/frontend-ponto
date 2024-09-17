@@ -17,6 +17,15 @@
     width: 100%;
 }
 
+#btn-close-pop-up {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    height: 20px;
+    background-color: greenyellow;
+    border: none;
+}
+
 .visible {
     visibility: visible;
     animation-duration: 1s;

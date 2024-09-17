@@ -7,7 +7,10 @@ const diaMesAno = document.getElementById("dia-mes-ano")
 const horaMinSeg = document.getElementById("hora-min-seg")
 
 const popUp = document.getElementById("pop-up")
+const btnClosePopUp = document.getElementById("btn-close-pop-up")
 const btnBaterPonto = document.getElementById("btn-bater-ponto")
+
+btnClosePopUp.addEventListener("click", () => popUp.className = "not-visible")
 btnBaterPonto.addEventListener("click", register)
 
 let registerLocalStorage = getRegisterLocalStorage()
@@ -137,6 +140,26 @@ function register() {
 
     dialogUltimoPonto.textContent = `Último registro: ${localStorage.getItem("lastTypeRegister")} - ${localStorage.getItem("lastDateRegister")} - ${localStorage.getItem("lastTimeRegister")}`
     
+    let lastTypeRegister = localStorage.getItem("lastTypeRegister")
+
+    if (lastTypeRegister == "entrada")
+    {
+        selectDialogTipo.value = "intervalo"
+    }
+    else if (lastTypeRegister == "intervalo")
+    {
+        selectDialogTipo.value = "volta-intervalo"
+    }
+    else if (lastTypeRegister == "volta-intervalo")
+    {
+        selectDialogTipo.value = "saída"
+    }
+    else if (lastTypeRegister == "saída")
+    {
+        selectDialogTipo.value = "entrada"
+    }
+
+
 }
 
 printHour()
