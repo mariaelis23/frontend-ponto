@@ -24,14 +24,15 @@ const dialogHora = document.getElementById("dialog-hora")
 const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
 
 btnDialogFechar.addEventListener("click", () => dialogPonto.close())
-btnDialogRegistrar.addEventListener("click", () => {
+btnDialogRegistrar.addEventListener("click", async () => {
 
     // Recuperar data, hora, localização e tipo e salva em objeto javascript
+    let userCurrentPosition = await getCurrentPosition()
 
     let ponto = {
         data: getCurrentDate(),
         hora: getCurrentHour(),
-        localizacao: getCurrentPosition(),
+        localizacao: userCurrentPosition,
         id: 1,
         tipo: selectDialogTipo.value
     }
@@ -103,12 +104,21 @@ function printHour() {
     horaMinSeg.textContent = getCurrentHour()
 }
 
-function getCurrentPosition() {
+async function getCurrentPosition() {
 
-    navigator.geolocation.getCurrentPosition((position) => {
-        return position
-      });
-      
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            let userLocation = {
+                "latitude": position.coords.latitude,
+                "longitude": position.coords.longitude
+            }
+            resolve(userLocation)
+        },
+        (error) => {
+            reject("Erro ao recuperar a localização" + error)
+        }
+        )
+    })
 
 }
 
