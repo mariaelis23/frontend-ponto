@@ -138,25 +138,33 @@ function register() {
     dialogData.textContent = "Data: " + getCurrentDate()
     dialogHora.textContent = "Hora: " + getCurrentHour()
 
-    dialogUltimoPonto.textContent = `Último registro: ${localStorage.getItem("lastTypeRegister")} - ${localStorage.getItem("lastDateRegister")} - ${localStorage.getItem("lastTimeRegister")}`
-    
+    setInterval(() => {
+        dialogHora.textContent = "Hora: " + getCurrentHour()
+    } , 1000)
+
     let lastTypeRegister = localStorage.getItem("lastTypeRegister")
 
-    if (lastTypeRegister == "entrada")
+    if (lastTypeRegister != null)
     {
-        selectDialogTipo.value = "intervalo"
-    }
-    else if (lastTypeRegister == "intervalo")
-    {
-        selectDialogTipo.value = "volta-intervalo"
-    }
-    else if (lastTypeRegister == "volta-intervalo")
-    {
-        selectDialogTipo.value = "saída"
-    }
-    else if (lastTypeRegister == "saída")
-    {
-        selectDialogTipo.value = "entrada"
+        dialogUltimoPonto.textContent = `Último registro: ${lastTypeRegister} - ${localStorage.getItem("lastDateRegister")} - ${localStorage.getItem("lastTimeRegister")}`
+    
+        if (lastTypeRegister == "entrada")
+        {
+            selectDialogTipo.value = "intervalo"
+        }
+        else if (lastTypeRegister == "intervalo")
+        {
+            selectDialogTipo.value = "volta-intervalo"
+        }
+        else if (lastTypeRegister == "volta-intervalo")
+        {
+            selectDialogTipo.value = "saída"
+        }
+        else if (lastTypeRegister == "saída")
+        {
+            selectDialogTipo.value = "entrada"
+        }
+
     }
 
 
