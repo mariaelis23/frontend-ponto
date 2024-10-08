@@ -23,16 +23,24 @@
         <button id="btn-bater-ponto">Bater ponto</button>
     </div>
     <dialog id="dialog-ponto"> 
-        <p id="dialog-data">Data: </p>
-        <p id="dialog-hora">Hora: </p>
+        <p class="dialog-data-hora" id="dialog-data">Data: </p>
+        <input type="date" name="data" id="dialog-data-input" class="not-visible">
+        <button class="btn-edit" id="btn-edit-data">Editar</button>
+        <br>
+        <p class="dialog-data-hora" id="dialog-hora">Hora: </p>
+        <input type="time" name="hora" id="dialog-hora-input" class="not-visible">
+        <button class="btn-edit" id="btn-edit-hora">Editar</button>
         <select name="tipo" id="select-dialog-tipo">
             <option value="entrada">Entrada</option>
             <option value="intervalo">Intervalo</option>
             <option value="volta-intervalo">Volta Intervalo</option>
             <option value="saída">Saída</option>
         </select>
-        <p id="dialog-ultimo-ponto"></p>
+        <p class="adicional">Adicionar OBS:</p>
+        <p class="adicional">Adicionar anexo:</p>
+        <textarea name="obs" id="box-obs" cols="30" rows="5"></textarea>
         <button id="btn-dialog-registrar">Registrar ponto</button>
+        <p id="dialog-ultimo-ponto"></p>
         <button id="btn-dialog-fechar">X</button>
     </dialog>
     <!-- Criar histórico dos últimos n registros -->

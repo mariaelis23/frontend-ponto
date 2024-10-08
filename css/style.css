@@ -52,15 +52,21 @@ button:hover {
 }
 
 #dialog-ponto select {
+    display: block;
     font-size: 1em;
     border: 2px solid black;
     padding: 4px;
     border: 2px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #btn-dialog-registrar {
+    margin-top: 30px;
     padding: 15px;
     border-radius: 15px;
+    display: block;
+    margin-bottom: 20px;
 }
 
 #btn-dialog-fechar {
@@ -70,6 +76,34 @@ button:hover {
     font-size: 1.2em;
     padding: 4px 10px;
     border-bottom-left-radius: 10px;
+}
+
+.dialog-data-hora{
+    display: inline;
+}
+
+#dialog-data-input {
+    padding: 5px;
+}
+
+#dialog-hora-input {
+    padding: 5px;
+}
+
+.btn-edit
+{
+    display: inline;
+    position: absolute;
+    left: 40%;
+}
+
+.adicional {
+    display: inline;
+    margin-right: 100px;
+}
+
+#box-obs {
+    display: block;
 }
 
 #pop-up {

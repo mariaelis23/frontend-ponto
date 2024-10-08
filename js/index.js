@@ -23,6 +23,13 @@ const dialogData = document.getElementById("dialog-data")
 const dialogHora = document.getElementById("dialog-hora")
 const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
 
+const dialogDataInput = document.getElementById("dialog-data-input")
+const dialogHoraInput = document.getElementById("dialog-hora-input")
+const btnEditData = document.getElementById("btn-edit-data")
+const btnEditHora = document.getElementById("btn-edit-hora")
+btnEditData.addEventListener("click", showInputData)
+btnEditHora.addEventListener("click", showInputHora)
+
 btnDialogFechar.addEventListener("click", () => dialogPonto.close())
 btnDialogRegistrar.addEventListener("click", async () => {
 
@@ -140,6 +147,20 @@ function getRegisterLocalStorage(register) {
 
 }
 
+function showInputData() {
+
+    dialogDataInput.className = "visible" 
+    dialogData.textContent = "Data: "
+
+}
+
+function showInputHora() {
+
+    dialogHoraInput.className = "visible" 
+    dialogHora.textContent = "Hora: "
+
+}
+
 function register() {
     
     dialogPonto.showModal()
@@ -147,6 +168,9 @@ function register() {
     // Atualizar horário a cada segundo e data 00:00:00
     dialogData.textContent = "Data: " + getCurrentDate()
     dialogHora.textContent = "Hora: " + getCurrentHour()
+
+    dialogDataInput.className = "not-visible" 
+    dialogHoraInput.className = "not-visible" 
 
     setInterval(() => {
         dialogHora.textContent = "Hora: " + getCurrentHour()
