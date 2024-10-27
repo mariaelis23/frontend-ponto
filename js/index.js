@@ -1,20 +1,17 @@
-navigator.geolocation.getCurrentPosition((position) => {
-    
-})
-
+// Elementos data e hora no início
 const diaSemana = document.getElementById("dia-semana")
 const diaMesAno = document.getElementById("dia-mes-ano")
 const horaMinSeg = document.getElementById("hora-min-seg")
 
-const popUp = document.getElementById("pop-up")
-const btnClosePopUp = document.getElementById("btn-close-pop-up")
 const btnBaterPonto = document.getElementById("btn-bater-ponto")
 
-btnClosePopUp.addEventListener("click", () => popUp.className = "not-visible")
-btnBaterPonto.addEventListener("click", register)
+// Elementos popup
+const popUp = document.getElementById("pop-up")
+const btnClosePopUp = document.getElementById("btn-close-pop-up")
 
 let registerLocalStorage = getRegisterLocalStorage()
 
+// Elementos do dialog
 const dialogPonto = document.getElementById("dialog-ponto")
 const selectDialogTipo = document.getElementById("select-dialog-tipo")
 const btnDialogRegistrar = document.getElementById("btn-dialog-registrar")
@@ -22,23 +19,40 @@ const btnDialogFechar = document.getElementById("btn-dialog-fechar")
 const dialogData = document.getElementById("dialog-data")
 const dialogHora = document.getElementById("dialog-hora")
 const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
-
 const dialogDataInput = document.getElementById("dialog-data-input")
 const dialogHoraInput = document.getElementById("dialog-hora-input")
 const btnEditData = document.getElementById("btn-edit-data")
 const btnEditHora = document.getElementById("btn-edit-hora")
+
+// Variáveis
+let hourInterval
+let inputHour = null
+let inputDate = null
+
+btnClosePopUp.addEventListener("click", () => popUp.className = "not-visible")
+btnBaterPonto.addEventListener("click", register)
+
 btnEditData.addEventListener("click", showInputData)
 btnEditHora.addEventListener("click", showInputHora)
 
 btnDialogFechar.addEventListener("click", () => dialogPonto.close())
+
+dialogDataInput.addEventListener("input", (event) => {
+    inputDate = event.target.value; // Armazena o valor do input
+});
+
+dialogHoraInput.addEventListener("input", (event) => {
+    inputHour = event.target.value; // Armazena o valor do input
+});
+
 btnDialogRegistrar.addEventListener("click", async () => {
 
     // Recuperar data, hora, localização e tipo e salva em objeto javascript
     let userCurrentPosition = await getCurrentPosition()
 
     let ponto = {
-        data: getCurrentDate(),
-        hora: getCurrentHour(),
+        data: inputDate || getCurrentDate(),
+        hora: inputHour || getCurrentHour(),
         localizacao: userCurrentPosition,
         id: 1,
         tipo: selectDialogTipo.value
@@ -107,10 +121,6 @@ function getCurrentHour() {
     return hour + ":" + minutes + ":" + seconds
 }
 
-function printHour() {
-    horaMinSeg.textContent = getCurrentHour()
-}
-
 async function getCurrentPosition() {
 
     return new Promise((resolve, reject) => {
@@ -158,6 +168,7 @@ function showInputHora() {
 
     dialogHoraInput.className = "visible" 
     dialogHora.textContent = "Hora: "
+    stopHourInterval()
 
 }
 
@@ -172,9 +183,10 @@ function register() {
     dialogDataInput.className = "not-visible" 
     dialogHoraInput.className = "not-visible" 
 
-    setInterval(() => {
-        dialogHora.textContent = "Hora: " + getCurrentHour()
-    } , 1000)
+    inputDate = null; // Reseta a variável
+    inputHour = null; // Reseta a variável
+
+    startHourInterval()
 
     let lastTypeRegister = localStorage.getItem("lastTypeRegister")
 
@@ -201,7 +213,23 @@ function register() {
 
     }
 
+}
 
+function printHour() {
+    horaMinSeg.textContent = getCurrentHour()
+}
+
+function printHourDialog() {
+    dialogHora.textContent = "Hora: " + getCurrentHour()
+}
+
+// Ativar e desativar intervalo de atualizar hora
+function startHourInterval() {
+    hourInterval = setInterval(printHourDialog, 1000);
+}
+
+function stopHourInterval() {
+    clearInterval(hourInterval);
 }
 
 printHour()
