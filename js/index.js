@@ -35,7 +35,7 @@ btnBaterPonto.addEventListener("click", register)
 btnEditData.addEventListener("click", showInputData)
 btnEditHora.addEventListener("click", showInputHora)
 
-btnDialogFechar.addEventListener("click", () => dialogPonto.close())
+btnDialogFechar.addEventListener("click", () => {dialogPonto.close(); stopHourInterval()})
 
 dialogDataInput.addEventListener("input", (event) => {
     inputDate = event.target.value; // Armazena o valor do input
@@ -50,8 +50,16 @@ btnDialogRegistrar.addEventListener("click", async () => {
     // Recuperar data, hora, localização e tipo e salva em objeto javascript
     let userCurrentPosition = await getCurrentPosition()
 
+    // Formatar e verificar data
+    let date = inputDate ? formatDate(inputDate) : getCurrentDate()
+    if (isFutureDate(date)) 
+    {
+        alert("A data não pode ser no futuro.")
+        return
+    }
+
     let ponto = {
-        data: inputDate || getCurrentDate(),
+        data: date,
         hora: inputHour || getCurrentHour(),
         localizacao: userCurrentPosition,
         id: 1,
@@ -213,6 +221,23 @@ function register() {
 
     }
 
+}
+
+// Deixar a data no formato dd/mm/yyyy
+function formatDate(inputDate) {
+    const parts = inputDate.split("-"); // Divide a data no formato yyyy-mm-dd
+    return `${parts[2]}/${parts[1]}/${parts[0]}`; // Retorna no formato dd/mm/yyyy
+}
+
+// Verificar se a data é no futuro
+function isFutureDate(inputDate) {
+    const parts = inputDate.split("/"); // Divide a data no formato dd/mm/yyyy
+    const dateToCheck = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`); // Cria um objeto Date no formato yyyy-mm-dd
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+
+    return dateToCheck > today; // Retorna true se a data é no futuro
 }
 
 function printHour() {
