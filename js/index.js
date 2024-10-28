@@ -18,11 +18,13 @@ const btnDialogRegistrar = document.getElementById("btn-dialog-registrar")
 const btnDialogFechar = document.getElementById("btn-dialog-fechar")
 const dialogData = document.getElementById("dialog-data")
 const dialogHora = document.getElementById("dialog-hora")
-const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
 const dialogDataInput = document.getElementById("dialog-data-input")
 const dialogHoraInput = document.getElementById("dialog-hora-input")
 const btnEditData = document.getElementById("btn-edit-data")
 const btnEditHora = document.getElementById("btn-edit-hora")
+const dialogBoxObs = document.getElementById("box-obs")
+const fileUpload = document.getElementById("file-upload");
+const dialogUltimoPonto = document.getElementById("dialog-ultimo-ponto")
 
 // Variáveis
 let hourInterval
@@ -58,12 +60,17 @@ btnDialogRegistrar.addEventListener("click", async () => {
         return
     }
 
+    // Recuperar arquivo anexo
+    let file = fileUpload.files[0]
+
     let ponto = {
         data: date,
         hora: inputHour || getCurrentHour(),
         localizacao: userCurrentPosition,
         id: 1,
-        tipo: selectDialogTipo.value
+        tipo: selectDialogTipo.value,
+        obs: dialogBoxObs.value,
+        anexo: file ? file.name : null
     }
 
     console.log(ponto)
