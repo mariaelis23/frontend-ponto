@@ -1,54 +1,87 @@
-const dialogEditar = document.getElementById("dialog-editar");
-const inputData = document.getElementById("data");
-const inputHora = document.getElementById("hora");
-const selectTipo = document.getElementById("tipo");
-const btnSalvar = document.getElementById("btn-salvar");
-const btnFecharDialog = document.getElementById("btn-fechar-dialog");
+const listaRegistros = document.getElementById("lista-registros");
+const modalEditar = document.getElementById("modal-editar");
+const campoData = document.getElementById("campo-data");
+const campoHora = document.getElementById("campo-hora");
+const campoTipo = document.getElementById("campo-tipo");
+const botaoSalvar = document.getElementById("botao-salvar");
+const botaoFechar = document.getElementById("botao-fechar");
 
-let registros = JSON.parse(localStorage.getItem("register")) || [];
-let registroAtualIndex = null;
+let pontos = JSON.parse(localStorage.getItem("register")) || [];
 
-function renderList() {
-    const registrosContainer = document.getElementById("registros-relatorio");
-    const registrosPorData = registros.reduce((acc, registro) => {
-        const data = registro.data;
-        if (!acc[data]) {
-            acc[data] = [];
-        }
-        acc[data].push(registro);
-        return acc;
-    }, {});
+// Função para exibir os pontos na tabela
+function exibirPontos() {
+    listaRegistros.innerHTML = ""; // Limpa a tabela antes de adicionar os pontos
 
-    registrosContainer.innerHTML = "";
+    pontos.forEach((ponto, index) => {
+        const linha = document.createElement("tr");
+        linha.innerHTML = `
+            <td>${ponto.data}</td>
+            <td>${ponto.hora}</td>
+            <td>${ponto.tipo}</td>
+            <td>${ponto.localizacao}</td>
+            <td>${ponto.obs || ''}</td>
+            <td>${ponto.anexo || ''}</td>
+            <td><button class="editar" data-index="${index}">Editar</button></td>
+        `;
+        listaRegistros.appendChild(linha);
+    });
 
-    for (const data in registrosPorData) {
-        const divData = document.createElement("div");
-        divData.innerHTML = `<h2>${data}</h2>`;
-
-        registrosPorData[data].forEach((registro, index) => {
-            const divRegistro = document.createElement("div");
-            const tipoRegistro = registro.tipo.charAt(0).toUpperCase() + registro.tipo.slice(1);
-
-            divRegistro.innerHTML = `
-                <p>${tipoRegistro} | ${registro.hora} | 
-                <button onclick="openEditDialog(${index})">Editar</button>
-                <button onclick="alertDelete()">Excluir</button></p>
-            `;
-
-            divData.appendChild(divRegistro);
+    // Adiciona os listeners para o botão de editar
+    const botoesEditar = document.querySelectorAll(".editar");
+    botoesEditar.forEach(botao => {
+        botao.addEventListener("click", (evento) => {
+            const index = evento.target.dataset.index;
+            abrirModalEditar(index);
         });
+    });
+}
 
-        registrosContainer.appendChild(divData);
+// Função para abrir o modal de edição
+function abrirModalEditar(index) {
+    const ponto = pontos[index];
+
+    // Preenche os campos do modal com os dados do ponto
+    campoData.value = ponto.data;
+    campoHora.value = ponto.hora;
+    campoTipo.value = ponto.tipo;
+
+    // Salva o índice do ponto para editar depois
+    botaoSalvar.dataset.index = index;
+
+    modalEditar.showModal();
+}
+
+// Função para salvar a edição
+botaoSalvar.addEventListener("click", () => {
+    const index = botaoSalvar.dataset.index;
+    pontos[index].data = campoData.value;
+    pontos[index].hora = campoHora.value;
+    pontos[index].tipo = campoTipo.value;
+
+    // Atualiza o localStorage
+    localStorage.setItem("pontos", JSON.stringify(pontos));
+
+    // Fecha o modal e atualiza a tabela
+    modalEditar.close();
+    exibirPontos();
+});
+
+// Função para fechar o modal
+botaoFechar.addEventListener("click", () => {
+    modalEditar.close();
+});
+
+function getRegisterLocalStorage(register) {
+    
+    let registers = JSON.parse(localStorage.getItem(register))
+
+    if (!registers) {
+        return []
     }
+
+    return registers
+
 }
 
-function openEditDialog(index) {
-    registroAtualIndex = index;
-    const registro = registros[index];
-
-    inputData.value = registro.data;
-    inputHora.value = registro.hora;
-    selectTipo.value = registro.tipo;
-
-    dialogEditar.showModal();
-}
+// Inicializa a tabela com os dados do localStorage
+exibirPontos();
