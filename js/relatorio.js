@@ -18,7 +18,7 @@ function exibirPontos() {
             <td>${ponto.data}</td>
             <td>${ponto.hora}</td>
             <td>${ponto.tipo}</td>
-            <td>${ponto.localizacao}</td>
+            <td>${ponto.localizacao.latitude}, ${ponto.localizacao.longitude}</td>
             <td>${ponto.obs || ''}</td>
             <td>${ponto.anexo || ''}</td>
             <td><button class="editar" data-index="${index}">Editar</button></td>
