@@ -3,6 +3,7 @@ const modalEditar = document.getElementById("modal-editar");
 const campoData = document.getElementById("campo-data");
 const campoHora = document.getElementById("campo-hora");
 const campoTipo = document.getElementById("campo-tipo");
+const campoObs = document.getElementById("campo-obs");  // Campo de observação
 const botaoSalvar = document.getElementById("botao-salvar");
 const botaoFechar = document.getElementById("botao-fechar");
 
@@ -19,7 +20,7 @@ function exibirPontos() {
             <td>${ponto.hora}</td>
             <td>${ponto.tipo}</td>
             <td>${ponto.localizacao.latitude}, ${ponto.localizacao.longitude}</td>
-            <td>${ponto.obs || ''}</td>
+            <td>${ponto.obs || ''}</td> <!-- Exibe a observação -->
             <td>${ponto.anexo || ''}</td>
             <td><button class="editar" data-index="${index}">Editar</button></td>
         `;
@@ -44,6 +45,7 @@ function abrirModalEditar(index) {
     campoData.value = ponto.data;
     campoHora.value = ponto.hora;
     campoTipo.value = ponto.tipo;
+    campoObs.value = ponto.obs || '';  // Preenche a observação com o valor do ponto
 
     // Salva o índice do ponto para editar depois
     botaoSalvar.dataset.index = index;
@@ -54,16 +56,19 @@ function abrirModalEditar(index) {
 // Função para salvar a edição
 botaoSalvar.addEventListener("click", () => {
     const index = botaoSalvar.dataset.index;
+
+    // Atualiza os dados do ponto com os valores do modal
     pontos[index].data = campoData.value;
     pontos[index].hora = campoHora.value;
     pontos[index].tipo = campoTipo.value;
+    pontos[index].obs = campoObs.value;  // Atualiza a observação
 
-    // Atualiza o localStorage
-    localStorage.setItem("pontos", JSON.stringify(pontos));
+    // Atualiza o localStorage com os novos valores
+    localStorage.setItem("register", JSON.stringify(pontos));
 
     // Fecha o modal e atualiza a tabela
     modalEditar.close();
-    exibirPontos();
+    exibirPontos();  // Atualiza a tabela com os dados editados
 });
 
 // Função para fechar o modal
@@ -72,15 +77,11 @@ botaoFechar.addEventListener("click", () => {
 });
 
 function getRegisterLocalStorage(register) {
-    
-    let registers = JSON.parse(localStorage.getItem(register))
-
+    let registers = JSON.parse(localStorage.getItem(register));
     if (!registers) {
-        return []
+        return [];
     }
-
-    return registers
-
+    return registers;
 }
 
 // Inicializa a tabela com os dados do localStorage
